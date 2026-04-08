@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title><%= unit.unit %> – Spec Sheet</title>
+<title>#<%= unit.unit %> – Spec Sheet</title>
 <style>
   *, *::before, *::after {
     margin: 0; padding: 0; box-sizing: border-box;
@@ -25,45 +25,64 @@
     overflow: hidden;
   }
 
-  /* ── Header ─────────────────────────────────────────────────── */
+  /* ── Header (white, tall — matching letterhead) ──────────────── */
   .hdr {
     background: #fff;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0.11in 0.38in 0.09in;
-    border-bottom: 1px solid #dde2e8;
+    padding: 0.16in 0.38in;
     flex-shrink: 0;
+    min-height: 1.1in;
+    border-bottom: 2.5px solid #1A2D62;
   }
 
   .hdr-logo img {
-    height: 0.48in; width: auto; display: block;
+    height: 0.78in; width: auto; display: block;
   }
 
   .hdr-logo span {
-    font-size: 20pt; font-weight: 800; color: #0A2D6E; letter-spacing: -0.02em;
+    font-size: 26pt; font-weight: 800; color: #1A2D62; letter-spacing: -0.02em;
+  }
+
+  .hdr-center {
+    flex: 1;
+    text-align: center;
+    padding: 0 0.3in;
+  }
+
+  .hdr-company {
+    font-size: 14pt; font-weight: 700;
+    color: #1A2D62; letter-spacing: -0.01em; line-height: 1;
   }
 
   .hdr-right { text-align: right; }
 
   .hdr-phone {
-    font-size: 14.5pt; font-weight: 700;
-    color: #0A2D6E; letter-spacing: -0.02em; line-height: 1;
+    font-size: 14pt; font-weight: 700;
+    color: #1A2D62; letter-spacing: -0.01em; line-height: 1;
   }
 
   .hdr-detail {
-    font-size: 7pt; color: #555;
-    margin-top: 3px; line-height: 1.45;
+    font-size: 7.5pt; color: #444;
+    margin-top: 4px; line-height: 1.5;
   }
 
-  /* ── Accent bar ──────────────────────────────────────────────── */
+  /* ── Gold accent bar ─────────────────────────────────────────── */
   .accent {
-    background: #0A2D6E;
-    padding: 3.5px 0.38in;
+    background: #D4B030;
+    height: 5px;
     flex-shrink: 0;
   }
 
-  .accent span {
-    color: rgba(255,255,255,0.82);
-    font-size: 5.5pt; font-weight: 600;
+  /* ── Navy tagline bar ────────────────────────────────────────── */
+  .tagline {
+    background: #1A2D62;
+    padding: 4px 0.38in;
+    flex-shrink: 0;
+  }
+
+  .tagline span {
+    color: rgba(255,255,255,0.88);
+    font-size: 5.8pt; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.08em;
   }
 
@@ -71,61 +90,53 @@
   .unit-hdr {
     padding: 0.08in 0.38in 0.065in;
     display: flex; align-items: baseline; gap: 0.12in;
-    border-bottom: 2.5px solid #1A9EFF;
+    border-bottom: 2.5px solid #D4B030;
     flex-shrink: 0;
   }
 
   .unit-num {
     font-size: 19pt; font-weight: 800;
-    color: #0A2D6E; letter-spacing: -0.02em; line-height: 1;
+    color: #1A2D62; letter-spacing: -0.02em; line-height: 1;
   }
 
   .unit-lbl {
     font-size: 8.5pt; font-weight: 500; color: #555; line-height: 1;
   }
 
-  /* ── Hero image ─────────────────────────────────────────────── */
-  .hero {
-    margin: 0.08in 0.38in 0.07in;
-    height: 2.36in;
-    border-radius: 4px; overflow: hidden;
-    background: #e8e8e8;
-    flex-shrink: 0;
-  }
-
-  .hero img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
-    display: block;
-  }
-
-  /* ── Content: specs + photos ─────────────────────────────────── */
-  .content {
+  /* ── Two-column staggered content ────────────────────────────── */
+  .columns {
     flex: 1; min-height: 0;
-    display: flex; gap: 0.15in;
-    padding: 0.065in 0.38in 0.055in;
+    display: flex; gap: 0.18in;
+    padding: 0.09in 0.38in 0.07in;
     overflow: hidden;
   }
 
-  .specs {
-    flex: 1.1; overflow: hidden;
-    display: flex; flex-direction: column; gap: 0.075in;
+  .col-left {
+    flex: 1;
+    display: flex; flex-direction: column; gap: 0.1in;
+    overflow: hidden;
+  }
+
+  .col-right {
+    flex: 1.15;
+    display: flex; flex-direction: column; gap: 0.1in;
+    overflow: hidden;
   }
 
   .sec { flex-shrink: 0; }
 
   .sec-hd {
-    font-size: 6.5pt; font-weight: 700;
-    color: #0A2D6E; text-transform: uppercase;
+    font-size: 6.8pt; font-weight: 700;
+    color: #1A2D62; text-transform: uppercase;
     letter-spacing: 0.07em;
-    border-bottom: 1.5px solid #1A9EFF;
+    border-bottom: 1.5px solid #D4B030;
     padding-bottom: 2px; margin-bottom: 3px;
   }
 
   .sec ul { list-style: none; }
 
   .sec ul li {
-    font-size: 6.5pt; line-height: 1.5;
+    font-size: 6.6pt; line-height: 1.5;
     color: #1a1a1a;
     padding-left: 8px; position: relative;
   }
@@ -133,37 +144,40 @@
   .sec ul li::before {
     content: '▸';
     position: absolute; left: 0; top: 0.5px;
-    color: #1A9EFF; font-size: 4.8pt; line-height: 1.65;
+    color: #1A2D62; font-size: 4.8pt; line-height: 1.65;
   }
 
-  .photos {
-    flex: 0.84;
-    display: flex; flex-direction: column; gap: 0.09in;
-    overflow: hidden;
-  }
-
-  .thumb {
-    flex: 1; min-height: 0;
+  .photo {
     border-radius: 3px; overflow: hidden;
-    background: #e8e8e8;
+    background: #e8e8ee;
+    min-height: 0;
   }
 
-  .thumb img {
+  .photo img {
     width: 100%; height: 100%;
     object-fit: cover; object-position: center;
     display: block;
   }
 
+  .photo-hero  { flex: 2.2; }
+  .photo-small { flex: 1.1; }
+
   /* ── Footer ─────────────────────────────────────────────────── */
   .foot {
-    background: #0A2D6E;
-    padding: 5.5px 0.38in;
+    background: #1A2D62;
+    padding: 0;
     flex-shrink: 0;
   }
 
-  .foot span {
+  .foot-gold { background: #D4B030; height: 4px; }
+
+  .foot-text {
+    padding: 5px 0.38in;
+  }
+
+  .foot-text span {
     color: rgba(255,255,255,0.9);
-    font-size: 5.3pt; font-weight: 600;
+    font-size: 5.5pt; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.07em;
   }
 </style>
@@ -171,7 +185,7 @@
 <body>
 <div class="page">
 
-  <!-- Header -->
+  <!-- Header (letterhead style) -->
   <header class="hdr">
     <div class="hdr-logo">
       <% if (logoUri) { %>
@@ -180,11 +194,12 @@
       <span>PLREI</span>
       <% } %>
     </div>
+    <div class="hdr-center">
+      <div class="hdr-company"><%= company.name %></div>
+    </div>
     <div class="hdr-right">
       <% if (company.phone) { %>
       <div class="hdr-phone"><%= company.phone %></div>
-      <% } else { %>
-      <div class="hdr-phone" style="font-size:13pt;font-weight:700;color:#0A2D6E"><%= company.name %></div>
       <% } %>
       <div class="hdr-detail">
         <%= company.website %>
@@ -193,56 +208,75 @@
       <% if (company.address || company.city) { %>
       <div class="hdr-detail">
         <%= company.address %>
-        <% if (company.city) { %>&nbsp; <%= company.city %><% } %>
+        <% if (company.city) { %>&nbsp;&bull;&nbsp; <%= company.city %><% } %>
       </div>
       <% } %>
     </div>
   </header>
 
-  <!-- Accent bar -->
-  <div class="accent"><span><%= company.tagline %></span></div>
+  <!-- Gold accent line + navy tagline -->
+  <div class="accent"></div>
+  <div class="tagline"><span><%= company.tagline %></span></div>
 
-  <!-- Unit title block -->
+  <!-- Unit title -->
   <div class="unit-hdr">
     <span class="unit-num">#<%= unit.unit %></span>
     <% if (unit.title) { %><span class="unit-lbl"><%= unit.title %></span><% } %>
   </div>
 
-  <!-- Hero image -->
-  <% if (photos.length > 0) { %>
-  <div class="hero">
-    <img src="<%= photos[0].dataUri %>" alt="">
-  </div>
-  <% } %>
+  <%
+    const leftSecs  = unit.sections.filter((_, i) => i % 2 === 0);
+    const rightSecs = unit.sections.filter((_, i) => i % 2 === 1);
+    const heroPhoto  = photos[0] || null;
+    const extraPhoto = photos[1] || null;
+  %>
+  <div class="columns">
 
-  <!-- Specs + secondary photos -->
-  <% const secondary = photos.slice(1, 3); %>
-  <div class="content">
-    <div class="specs">
-      <% unit.sections.forEach(s => { %>
+    <div class="col-left">
+      <% leftSecs.forEach(s => { %>
       <div class="sec">
         <div class="sec-hd"><%= s.heading %></div>
         <ul>
-          <% s.items.forEach(item => { %>
-          <li><%= item %></li>
-          <% }) %>
+          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
         </ul>
       </div>
       <% }) %>
     </div>
 
-    <% if (secondary.length > 0) { %>
-    <div class="photos">
-      <% secondary.forEach(p => { %>
-      <div class="thumb"><img src="<%= p.dataUri %>" alt=""></div>
+    <div class="col-right">
+      <% if (heroPhoto) { %>
+      <div class="photo photo-hero">
+        <img src="<%= heroPhoto.dataUri %>" alt="">
+      </div>
+      <% } %>
+
+      <% rightSecs.forEach((s, i) => { %>
+      <div class="sec">
+        <div class="sec-hd"><%= s.heading %></div>
+        <ul>
+          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
+        </ul>
+      </div>
+      <% if (photos[i + 1]) { %>
+      <div class="photo photo-small">
+        <img src="<%= photos[i + 1].dataUri %>" alt="">
+      </div>
+      <% } %>
       <% }) %>
+
+      <% if (rightSecs.length === 0 && extraPhoto) { %>
+      <div class="photo photo-small">
+        <img src="<%= extraPhoto.dataUri %>" alt="">
+      </div>
+      <% } %>
     </div>
-    <% } %>
+
   </div>
 
   <!-- Footer -->
   <footer class="foot">
-    <span><%= company.footer_cta %></span>
+    <div class="foot-gold"></div>
+    <div class="foot-text"><span><%= company.footer_cta %></span></div>
   </footer>
 
 </div>

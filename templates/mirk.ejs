@@ -25,46 +25,46 @@
     overflow: hidden;
   }
 
-  /* ── Header ─────────────────────────────────────────────────── */
+  /* ── Header (taller, white bg) ───────────────────────────────── */
   .hdr {
     background: #fff;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0.11in 0.38in 0.09in;
-    border-bottom: 1px solid #dde2e8;
+    padding: 0.16in 0.38in;
+    border-bottom: 1px solid #d0d8d0;
     flex-shrink: 0;
+    min-height: 1.1in;
   }
 
   .hdr-logo img {
-    height: 0.48in; width: auto; display: block;
+    height: 0.82in; width: auto; display: block;
   }
 
-  /* Fallback if logo fails */
   .hdr-logo span {
-    font-size: 20pt; font-weight: 800; color: #0D1F38; letter-spacing: -0.02em;
+    font-size: 28pt; font-weight: 800; color: #1E7832; letter-spacing: -0.02em;
   }
 
   .hdr-right { text-align: right; }
 
   .hdr-phone {
-    font-size: 14.5pt; font-weight: 700;
-    color: #0D1F38; letter-spacing: -0.02em; line-height: 1;
+    font-size: 20pt; font-weight: 700;
+    color: #1E7832; letter-spacing: -0.02em; line-height: 1;
   }
 
   .hdr-detail {
-    font-size: 7pt; color: #555;
-    margin-top: 3px; line-height: 1.45;
+    font-size: 7.5pt; color: #444;
+    margin-top: 4px; line-height: 1.5;
   }
 
-  /* ── Tagline bar ─────────────────────────────────────────────── */
+  /* ── Green tagline bar ───────────────────────────────────────── */
   .tagline {
-    background: #0D1F38;
-    padding: 3.5px 0.38in;
+    background: #1E7832;
+    padding: 4px 0.38in;
     flex-shrink: 0;
   }
 
   .tagline span {
-    color: rgba(255,255,255,0.8);
-    font-size: 5.5pt; font-weight: 600;
+    color: rgba(255,255,255,0.88);
+    font-size: 5.8pt; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.08em;
   }
 
@@ -72,62 +72,56 @@
   .unit-hdr {
     padding: 0.08in 0.38in 0.065in;
     display: flex; align-items: baseline; gap: 0.12in;
-    border-bottom: 2.5px solid #D94F10;
+    border-bottom: 2.5px solid #1E7832;
     flex-shrink: 0;
   }
 
   .unit-num {
     font-size: 19pt; font-weight: 800;
-    color: #0D1F38; letter-spacing: -0.02em; line-height: 1;
+    color: #1E7832; letter-spacing: -0.02em; line-height: 1;
   }
 
   .unit-lbl {
     font-size: 8.5pt; font-weight: 500; color: #555; line-height: 1;
   }
 
-  /* ── Hero image ─────────────────────────────────────────────── */
-  .hero {
-    margin: 0.08in 0.38in 0.07in;
-    height: 2.36in;
-    border-radius: 4px; overflow: hidden;
-    background: #e8e8e8;
-    flex-shrink: 0;
-  }
-
-  .hero img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
-    display: block;
-  }
-
-  /* ── Content: specs + photos ─────────────────────────────────── */
-  .content {
+  /* ── Two-column staggered content ────────────────────────────── */
+  .columns {
     flex: 1; min-height: 0;
-    display: flex; gap: 0.15in;
-    padding: 0.065in 0.38in 0.055in;
+    display: flex; gap: 0.18in;
+    padding: 0.09in 0.38in 0.07in;
     overflow: hidden;
   }
 
-  /* Specs column */
-  .specs {
-    flex: 1.1; overflow: hidden;
-    display: flex; flex-direction: column; gap: 0.075in;
+  /* Left column: even-indexed sections (0, 2, ...) */
+  .col-left {
+    flex: 1;
+    display: flex; flex-direction: column; gap: 0.1in;
+    overflow: hidden;
   }
 
+  /* Right column: photo → odd section → photo */
+  .col-right {
+    flex: 1.15;
+    display: flex; flex-direction: column; gap: 0.1in;
+    overflow: hidden;
+  }
+
+  /* Spec sections */
   .sec { flex-shrink: 0; }
 
   .sec-hd {
-    font-size: 6.5pt; font-weight: 700;
-    color: #0D1F38; text-transform: uppercase;
+    font-size: 6.8pt; font-weight: 700;
+    color: #1E7832; text-transform: uppercase;
     letter-spacing: 0.07em;
-    border-bottom: 1px solid #0D1F38;
+    border-bottom: 1.5px solid #1E7832;
     padding-bottom: 2px; margin-bottom: 3px;
   }
 
   .sec ul { list-style: none; }
 
   .sec ul li {
-    font-size: 6.5pt; line-height: 1.5;
+    font-size: 6.6pt; line-height: 1.5;
     color: #1a1a1a;
     padding-left: 8px; position: relative;
   }
@@ -135,38 +129,35 @@
   .sec ul li::before {
     content: '▸';
     position: absolute; left: 0; top: 0.5px;
-    color: #D94F10; font-size: 4.8pt; line-height: 1.65;
+    color: #1E7832; font-size: 4.8pt; line-height: 1.65;
   }
 
-  /* Photos column */
-  .photos {
-    flex: 0.84;
-    display: flex; flex-direction: column; gap: 0.09in;
-    overflow: hidden;
-  }
-
-  .thumb {
-    flex: 1; min-height: 0;
+  /* Photos */
+  .photo {
     border-radius: 3px; overflow: hidden;
-    background: #e8e8e8;
+    background: #e8ece8;
+    min-height: 0;
   }
 
-  .thumb img {
+  .photo img {
     width: 100%; height: 100%;
     object-fit: cover; object-position: center;
     display: block;
   }
 
+  .photo-hero  { flex: 2.2; }
+  .photo-small { flex: 1.1; }
+
   /* ── Footer ─────────────────────────────────────────────────── */
   .foot {
-    background: #0D1F38;
+    background: #1E7832;
     padding: 5.5px 0.38in;
     flex-shrink: 0;
   }
 
   .foot span {
-    color: #D94F10;
-    font-size: 5.3pt; font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    font-size: 5.5pt; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.07em;
   }
 </style>
@@ -197,45 +188,70 @@
     </div>
   </header>
 
-  <!-- Tagline bar -->
+  <!-- Green tagline bar -->
   <div class="tagline"><span><%= company.tagline %></span></div>
 
-  <!-- Unit title block -->
+  <!-- Unit title -->
   <div class="unit-hdr">
     <span class="unit-num">MIRK&nbsp;#<%= unit.unit %></span>
     <% if (unit.title) { %><span class="unit-lbl"><%= unit.title %></span><% } %>
   </div>
 
-  <!-- Hero image (first photo) -->
-  <% if (photos.length > 0) { %>
-  <div class="hero">
-    <img src="<%= photos[0].dataUri %>" alt="">
-  </div>
-  <% } %>
+  <!--
+    Staggered two-column layout (mirrors original MIRK style):
+      Left  col: sections 0, 2, 4 ...  (CAB & CHASSIS, BODY, ...)
+      Right col: hero photo → section 1 → secondary photo → section 3 ...
+  -->
+  <%
+    const leftSecs  = unit.sections.filter((_, i) => i % 2 === 0);
+    const rightSecs = unit.sections.filter((_, i) => i % 2 === 1);
+    const heroPhoto  = photos[0] || null;
+    const extraPhoto = photos[1] || null;
+  %>
+  <div class="columns">
 
-  <!-- Specs + secondary photos -->
-  <% const secondary = photos.slice(1, 3); %>
-  <div class="content">
-    <div class="specs">
-      <% unit.sections.forEach(s => { %>
+    <!-- Left column -->
+    <div class="col-left">
+      <% leftSecs.forEach(s => { %>
       <div class="sec">
         <div class="sec-hd"><%= s.heading %></div>
         <ul>
-          <% s.items.forEach(item => { %>
-          <li><%= item %></li>
-          <% }) %>
+          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
         </ul>
       </div>
       <% }) %>
     </div>
 
-    <% if (secondary.length > 0) { %>
-    <div class="photos">
-      <% secondary.forEach(p => { %>
-      <div class="thumb"><img src="<%= p.dataUri %>" alt=""></div>
+    <!-- Right column -->
+    <div class="col-right">
+      <% if (heroPhoto) { %>
+      <div class="photo photo-hero">
+        <img src="<%= heroPhoto.dataUri %>" alt="">
+      </div>
+      <% } %>
+
+      <% rightSecs.forEach((s, i) => { %>
+      <div class="sec">
+        <div class="sec-hd"><%= s.heading %></div>
+        <ul>
+          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
+        </ul>
+      </div>
+      <% if (photos[i + 1]) { %>
+      <div class="photo photo-small">
+        <img src="<%= photos[i + 1].dataUri %>" alt="">
+      </div>
+      <% } %>
       <% }) %>
+
+      <!-- If no right sections, show secondary photo directly -->
+      <% if (rightSecs.length === 0 && extraPhoto) { %>
+      <div class="photo photo-small">
+        <img src="<%= extraPhoto.dataUri %>" alt="">
+      </div>
+      <% } %>
     </div>
-    <% } %>
+
   </div>
 
   <!-- Footer -->
