@@ -172,18 +172,21 @@
     padding-bottom: 2px; margin-bottom: 3px;
   }
 
-  .sec ul { list-style: none; }
+  .sec ul {
+    list-style-type: disclosure-closed;
+    margin: 0;
+    padding-left: 12px;
+  }
 
   .sec ul li {
     font-size: 6.6pt; line-height: 1.5;
     color: #1a1a1a;
-    padding-left: 8px; position: relative;
+    padding-left: 0;
   }
 
-  .sec ul li::before {
-    content: '▸';
-    position: absolute; left: 0; top: 0.5px;
-    color: var(--primary); font-size: 4.8pt; line-height: 1.65;
+  .sec ul li::marker {
+    color: var(--primary);
+    font-size: 0.63em;
   }
 
   .photo {
@@ -341,3 +344,10 @@
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
