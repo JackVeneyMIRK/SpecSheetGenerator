@@ -105,10 +105,11 @@
 
   /* ── Unit title ─────────────────────────────────────────────── */
   .unit-hdr {
-    padding: 0.08in 0 0.065in;
+    padding: 0.08in 0.38in 0.065in;
     display: flex; align-items: baseline; gap: 0.12in;
     border-bottom: 2.5px solid var(--accent);
     flex-shrink: 0;
+    overflow: hidden;
   }
 
   .unit-num,
@@ -118,15 +119,24 @@
   }
 
   .unit-num {
+    flex-shrink: 0;
     font-weight: 800;
     color: var(--primary);
     letter-spacing: -0.02em;
   }
 
   .unit-lbl {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: 700;
     color: #555;
   }
+
+  .unit-lbl.unit-lbl--sm { font-size: 16pt; }
+  .unit-lbl.unit-lbl--xs { font-size: 14pt; }
 
   /* ── Two-column staggered content ────────────────────────────── */
   .columns {
@@ -263,7 +273,9 @@
   <!-- Unit title -->
   <div class="unit-hdr">
     <span class="unit-num">#<%= unit.unit %></span>
-    <% if (unit.title) { %><span class="unit-lbl"><%= unit.title %></span><% } %>
+    <% if (unit.title) { %>
+    <span class="unit-lbl <%= unit.title.length > 68 ? 'unit-lbl--xs' : (unit.title.length > 52 ? 'unit-lbl--sm' : '') %>"><%= unit.title %></span>
+    <% } %>
   </div>
 
   <div class="columns">
