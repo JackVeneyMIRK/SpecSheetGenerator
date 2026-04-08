@@ -3,7 +3,7 @@ export default function LoginPage() {
     <main className="shell">
       <div className="card">
         <h1>Spec Sheet Dashboard Login</h1>
-        <p>Use the shared dashboard password to access tenant/unit controls.</p>
+        <p>Auth bypass is currently enabled, so dashboard access is open for now.</p>
         <form className="stack" method="post" action="/api/login">
           <input name="password" type="password" placeholder="Dashboard password" required />
           <button className="button" type="submit">

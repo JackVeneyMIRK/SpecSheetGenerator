@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import authModule from '@/lib/auth';
 
-const { COOKIE_NAME, getSessionToken } = authModule;
+const { AUTH_BYPASS, COOKIE_NAME, getSessionToken } = authModule;
 
 export function proxy(request) {
+  if (AUTH_BYPASS) return NextResponse.next();
   const { pathname } = request.nextUrl;
 
   if (pathname === '/login') return NextResponse.next();
