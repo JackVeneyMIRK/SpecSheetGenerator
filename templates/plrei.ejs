@@ -105,17 +105,16 @@
 
   /* ── Unit title ─────────────────────────────────────────────── */
   .unit-hdr {
-    padding: 0.08in 0.38in 0.065in;
+    padding: 0.08in 0.38in 0.085in;
     display: flex; align-items: baseline; gap: 0.12in;
     border-bottom: 2.5px solid var(--accent);
     flex-shrink: 0;
-    overflow: hidden;
   }
 
   .unit-num,
   .unit-lbl {
     font-size: 19pt;
-    line-height: 1.08;
+    line-height: 1.14;
   }
 
   .unit-num {
@@ -129,15 +128,17 @@
     flex: 1;
     min-width: 0;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
     text-overflow: ellipsis;
-    padding-bottom: 0.03em;
+    padding-bottom: 0.08em;
     font-weight: 700;
     color: #555;
   }
 
   .unit-lbl.unit-lbl--sm { font-size: 16pt; }
   .unit-lbl.unit-lbl--xs { font-size: 14pt; }
+  .unit-lbl.unit-lbl--xxs { font-size: 12.5pt; }
 
   /* ── Two-column staggered content ────────────────────────────── */
   .columns {
@@ -275,7 +276,7 @@
   <div class="unit-hdr">
     <span class="unit-num">#<%= unit.unit %></span>
     <% if (unit.title) { %>
-    <span class="unit-lbl <%= unit.title.length > 68 ? 'unit-lbl--xs' : (unit.title.length > 52 ? 'unit-lbl--sm' : '') %>"><%= unit.title %></span>
+    <span class="unit-lbl <%= unit.title.length > 60 ? 'unit-lbl--xxs' : (unit.title.length > 50 ? 'unit-lbl--xs' : (unit.title.length > 42 ? 'unit-lbl--sm' : '')) %>"><%= unit.title %></span>
     <% } %>
   </div>
 
