@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title><%= unit.unit %> – Spec Sheet</title>
+<style>
+  *, *::before, *::after {
+    margin: 0; padding: 0; box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page { size: letter portrait; margin: 0; }
+
+  html, body {
+    width: 8.5in; height: 11in;
+    font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+  }
+
+  .page {
+    width: 8.5in; height: 11in;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Header ─────────────────────────────────────────────────── */
+  .hdr {
+    background: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.11in 0.38in 0.09in;
+    border-bottom: 1px solid #dde2e8;
+    flex-shrink: 0;
+  }
+
+  .hdr-logo img {
+    height: 0.48in; width: auto; display: block;
+  }
+
+  .hdr-logo span {
+    font-size: 20pt; font-weight: 800; color: #0A2D6E; letter-spacing: -0.02em;
+  }
+
+  .hdr-right { text-align: right; }
+
+  .hdr-phone {
+    font-size: 14.5pt; font-weight: 700;
+    color: #0A2D6E; letter-spacing: -0.02em; line-height: 1;
+  }
+
+  .hdr-detail {
+    font-size: 7pt; color: #555;
+    margin-top: 3px; line-height: 1.45;
+  }
+
+  /* ── Accent bar ──────────────────────────────────────────────── */
+  .accent {
+    background: #0A2D6E;
+    padding: 3.5px 0.38in;
+    flex-shrink: 0;
+  }
+
+  .accent span {
+    color: rgba(255,255,255,0.82);
+    font-size: 5.5pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* ── Unit title ─────────────────────────────────────────────── */
+  .unit-hdr {
+    padding: 0.08in 0.38in 0.065in;
+    display: flex; align-items: baseline; gap: 0.12in;
+    border-bottom: 2.5px solid #1A9EFF;
+    flex-shrink: 0;
+  }
+
+  .unit-num {
+    font-size: 19pt; font-weight: 800;
+    color: #0A2D6E; letter-spacing: -0.02em; line-height: 1;
+  }
+
+  .unit-lbl {
+    font-size: 8.5pt; font-weight: 500; color: #555; line-height: 1;
+  }
+
+  /* ── Hero image ─────────────────────────────────────────────── */
+  .hero {
+    margin: 0.08in 0.38in 0.07in;
+    height: 2.36in;
+    border-radius: 4px; overflow: hidden;
+    background: #e8e8e8;
+    flex-shrink: 0;
+  }
+
+  .hero img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    display: block;
+  }
+
+  /* ── Content: specs + photos ─────────────────────────────────── */
+  .content {
+    flex: 1; min-height: 0;
+    display: flex; gap: 0.15in;
+    padding: 0.065in 0.38in 0.055in;
+    overflow: hidden;
+  }
+
+  .specs {
+    flex: 1.1; overflow: hidden;
+    display: flex; flex-direction: column; gap: 0.075in;
+  }
+
+  .sec { flex-shrink: 0; }
+
+  .sec-hd {
+    font-size: 6.5pt; font-weight: 700;
+    color: #0A2D6E; text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border-bottom: 1.5px solid #1A9EFF;
+    padding-bottom: 2px; margin-bottom: 3px;
+  }
+
+  .sec ul { list-style: none; }
+
+  .sec ul li {
+    font-size: 6.5pt; line-height: 1.5;
+    color: #1a1a1a;
+    padding-left: 8px; position: relative;
+  }
+
+  .sec ul li::before {
+    content: '▸';
+    position: absolute; left: 0; top: 0.5px;
+    color: #1A9EFF; font-size: 4.8pt; line-height: 1.65;
+  }
+
+  .photos {
+    flex: 0.84;
+    display: flex; flex-direction: column; gap: 0.09in;
+    overflow: hidden;
+  }
+
+  .thumb {
+    flex: 1; min-height: 0;
+    border-radius: 3px; overflow: hidden;
+    background: #e8e8e8;
+  }
+
+  .thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    display: block;
+  }
+
+  /* ── Footer ─────────────────────────────────────────────────── */
+  .foot {
+    background: #0A2D6E;
+    padding: 5.5px 0.38in;
+    flex-shrink: 0;
+  }
+
+  .foot span {
+    color: rgba(255,255,255,0.9);
+    font-size: 5.3pt; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.07em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="hdr">
+    <div class="hdr-logo">
+      <% if (logoUri) { %>
+      <img src="<%= logoUri %>" alt="<%= company.name %>">
+      <% } else { %>
+      <span>PLREI</span>
+      <% } %>
+    </div>
+    <div class="hdr-right">
+      <% if (company.phone) { %>
+      <div class="hdr-phone"><%= company.phone %></div>
+      <% } else { %>
+      <div class="hdr-phone" style="font-size:13pt;font-weight:700;color:#0A2D6E"><%= company.name %></div>
+      <% } %>
+      <div class="hdr-detail">
+        <%= company.website %>
+        <% if (company.email) { %>&nbsp; &bull; &nbsp;<%= company.email %><% } %>
+      </div>
+      <% if (company.address || company.city) { %>
+      <div class="hdr-detail">
+        <%= company.address %>
+        <% if (company.city) { %>&nbsp; <%= company.city %><% } %>
+      </div>
+      <% } %>
+    </div>
+  </header>
+
+  <!-- Accent bar -->
+  <div class="accent"><span><%= company.tagline %></span></div>
+
+  <!-- Unit title block -->
+  <div class="unit-hdr">
+    <span class="unit-num">#<%= unit.unit %></span>
+    <% if (unit.title) { %><span class="unit-lbl"><%= unit.title %></span><% } %>
+  </div>
+
+  <!-- Hero image -->
+  <% if (photos.length > 0) { %>
+  <div class="hero">
+    <img src="<%= photos[0].dataUri %>" alt="">
+  </div>
+  <% } %>
+
+  <!-- Specs + secondary photos -->
+  <% const secondary = photos.slice(1, 3); %>
+  <div class="content">
+    <div class="specs">
+      <% unit.sections.forEach(s => { %>
+      <div class="sec">
+        <div class="sec-hd"><%= s.heading %></div>
+        <ul>
+          <% s.items.forEach(item => { %>
+          <li><%= item %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <% }) %>
+    </div>
+
+    <% if (secondary.length > 0) { %>
+    <div class="photos">
+      <% secondary.forEach(p => { %>
+      <div class="thumb"><img src="<%= p.dataUri %>" alt=""></div>
+      <% }) %>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Footer -->
+  <footer class="foot">
+    <span><%= company.footer_cta %></span>
+  </footer>
+
+</div>
+</body>
+</html>
