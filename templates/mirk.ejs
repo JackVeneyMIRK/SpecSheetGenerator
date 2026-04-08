@@ -81,16 +81,35 @@
     display: flex; align-items: baseline; gap: 0.12in;
     border-bottom: 2.5px solid var(--primary);
     flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .unit-num,
+  .unit-lbl {
+    font-size: 19pt;
+    line-height: 1.08;
   }
 
   .unit-num {
-    font-size: 19pt; font-weight: 800;
-    color: var(--primary); letter-spacing: -0.02em; line-height: 1;
+    flex-shrink: 0;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.02em;
   }
 
   .unit-lbl {
-    font-size: 8.5pt; font-weight: 500; color: #555; line-height: 1;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-bottom: 0.03em;
+    font-weight: 700;
+    color: #555;
   }
+
+  .unit-lbl.unit-lbl--sm { font-size: 16pt; }
+  .unit-lbl.unit-lbl--xs { font-size: 14pt; }
 
   /* ── Two-column staggered content ────────────────────────────── */
   .columns {
@@ -154,8 +173,8 @@
     display: block;
   }
 
-  .photo-hero  { flex: 1.6 1 0; min-height: 2.05in; max-height: 3.25in; }
-  .photo-small { flex: 1.05 1 0; min-height: 1.25in; max-height: 2.4in; }
+  .photo-hero  { flex: 1.1 1 0; min-height: 1.7in; max-height: 2.35in; }
+  .photo-small { flex: 1.35 1 0; min-height: 1.5in; max-height: 2.65in; }
 
   /* ── Footer ─────────────────────────────────────────────────── */
   .foot {
@@ -203,7 +222,9 @@
   <!-- Unit title -->
   <div class="unit-hdr">
     <span class="unit-num">MIRK&nbsp;#<%= unit.unit %></span>
-    <% if (unit.title) { %><span class="unit-lbl"><%= unit.title %></span><% } %>
+    <% if (unit.title) { %>
+    <span class="unit-lbl <%= unit.title.length > 68 ? 'unit-lbl--xs' : (unit.title.length > 52 ? 'unit-lbl--sm' : '') %>"><%= unit.title %></span>
+    <% } %>
   </div>
 
   <!--
@@ -225,7 +246,7 @@
       </div>
       <% if (photos[i + 1]) { %>
       <div class="photo photo-small">
-        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= photos[i + 1].focalX %>% <%= photos[i + 1].focalY %>%">
+        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= Math.round(50 + (photos[i + 1].focalX - 50) * 0.7) %>% <%= Math.round(50 + (photos[i + 1].focalY - 50) * 0.7) %>%">
       </div>
       <% } %>
       <% } %>
@@ -249,7 +270,7 @@
       </div>
       <% if (photos[i + 1]) { %>
       <div class="photo photo-small">
-        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= photos[i + 1].focalX %>% <%= photos[i + 1].focalY %>%">
+        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= Math.round(50 + (photos[i + 1].focalX - 50) * 0.7) %>% <%= Math.round(50 + (photos[i + 1].focalY - 50) * 0.7) %>%">
       </div>
       <% } %>
       <% } %>
