@@ -1,2 +1,4 @@
 node_modules/
 config/.focal-cache.json
+.next/
+.env.local

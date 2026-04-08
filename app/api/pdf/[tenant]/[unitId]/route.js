@@ -1,0 +1,31 @@
+import serviceModule from '@/lib/specSheetService';
+import pdfModule from '@/lib/pdfGenerator';
+
+const { renderSheet } = serviceModule;
+const { generatePDF } = pdfModule;
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+export async function GET(request, { params }) {
+  const { tenant, unitId } = await params;
+  const url = new URL(request.url);
+  const asTenant = url.searchParams.get('as') || null;
+  const download = url.searchParams.has('download');
+
+  try {
+    const html = await renderSheet(tenant, unitId, asTenant);
+    const pdf = await generatePDF(html);
+    return new Response(pdf, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `${download ? 'attachment' : 'inline'}; filename="${unitId}.pdf"`,
+      },
+    });
+  } catch (error) {
+    const message = error?.message || 'Unable to generate PDF';
+    const status = error?.status || 500;
+    return new Response(`Error: ${message}`, { status });
+  }
+}
