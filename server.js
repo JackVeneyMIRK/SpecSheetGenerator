@@ -12,6 +12,7 @@ const { tenantFromHost }          = require('./lib/tenant');
 const app  = express();
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
+const IS_DEV = process.env.NODE_ENV === 'development' || process.execArgv.includes('--watch');
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -68,6 +69,17 @@ async function renderSheet(tenant, unitId, asTenant) {
 
 function resolveTenant(req) {
   return tenantFromHost(req.hostname) ?? req.query.tenant ?? 'mirk';
+}
+
+if (IS_DEV) {
+  app.use((req, res, next) => {
+    const start = Date.now();
+    res.on('finish', () => {
+      const ms = Date.now() - start;
+      console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} -> ${res.statusCode} (${ms}ms)`);
+    });
+    next();
+  });
 }
 
 // ── Routes ────────────────────────────────────────────────────────────────────
@@ -149,7 +161,10 @@ app.get('/:unitId/pdf', async (req, res) => {
 // ── Start ─────────────────────────────────────────────────────────────────────
 
 app.listen(PORT, () => {
-  console.log(`\nSpec Sheet Generator`);
+  const mode = IS_DEV ? 'development' : 'production';
+  console.log(`\nSpec Sheet Generator (${mode})`);
+  console.log(`  Started:  ${new Date().toISOString()}`);
+  console.log(`  PID:      ${process.pid}`);
   console.log(`  Index:    http://localhost:${PORT}/`);
   console.log(`  Preview:  http://localhost:${PORT}/preview/mirk/636L`);
   console.log(`  PDF:      http://localhost:${PORT}/pdf/mirk/636L\n`);
