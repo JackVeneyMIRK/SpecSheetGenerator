@@ -33,7 +33,7 @@
 }
 
 .sec ul {
-  list-style-type: disclosure-closed;
+  list-style-type: none;
   margin: 0;
   padding-left: 12px;
 }
@@ -46,8 +46,10 @@
 }
 
 .sec ul li::marker {
+  content: '▸  ';
   color: var(--primary);
-  font-size: 0.63em;
+  font-size: 0.9em;
+  font-family: "Segoe UI Symbol", "Segoe UI", sans-serif;
 }
 
 .photo {
