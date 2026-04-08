@@ -1,0 +1,42 @@
+<div class="columns">
+  <div class="col-left">
+    <% unit.sections.forEach((s, i) => { %>
+    <% if (i % 2 === 0) { %>
+    <div class="sec">
+      <div class="sec-hd"><%= s.heading %></div>
+      <ul>
+        <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
+      </ul>
+    </div>
+    <% if (photos[i + 1]) { %>
+    <div class="photo photo-small">
+      <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= Math.round(50 + (photos[i + 1].focalX - 50) * 0.7) %>% <%= Math.round(50 + (photos[i + 1].focalY - 50) * 0.7) %>%">
+    </div>
+    <% } %>
+    <% } %>
+    <% }) %>
+  </div>
+
+  <div class="col-right">
+    <% if (photos[0]) { %>
+    <div class="photo photo-hero">
+      <img src="<%= photos[0].dataUri %>" alt="" style="object-position: <%= photos[0].focalX %>% <%= photos[0].focalY %>%">
+    </div>
+    <% } %>
+    <% unit.sections.forEach((s, i) => { %>
+    <% if (i % 2 === 1) { %>
+    <div class="sec">
+      <div class="sec-hd"><%= s.heading %></div>
+      <ul>
+        <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
+      </ul>
+    </div>
+    <% if (photos[i + 1]) { %>
+    <div class="photo photo-small">
+      <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= Math.round(50 + (photos[i + 1].focalX - 50) * 0.7) %>% <%= Math.round(50 + (photos[i + 1].focalY - 50) * 0.7) %>%">
+    </div>
+    <% } %>
+    <% } %>
+    <% }) %>
+  </div>
+</div>

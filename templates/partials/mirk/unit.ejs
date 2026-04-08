@@ -1,0 +1,6 @@
+<div class="unit-hdr">
+  <span class="unit-num">#<%= unit.unit %></span>
+  <% if (unit.title) { %>
+  <span class="unit-lbl <%= unit.title.length > 60 ? 'unit-lbl--xxs' : (unit.title.length > 50 ? 'unit-lbl--xs' : (unit.title.length > 42 ? 'unit-lbl--sm' : '')) %>"><%= unit.title %></span>
+  <% } %>
+</div>

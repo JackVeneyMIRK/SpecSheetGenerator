@@ -1,0 +1,37 @@
+.unit-hdr {
+  padding: 0.08in 0.38in 0.085in;
+  display: flex;
+  align-items: baseline;
+  gap: 0.12in;
+  border-bottom: 2.5px solid var(--accent);
+  flex-shrink: 0;
+}
+
+.unit-num,
+.unit-lbl {
+  font-size: 19pt;
+  line-height: 1.14;
+}
+
+.unit-num {
+  flex-shrink: 0;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+.unit-lbl {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: visible;
+  text-overflow: ellipsis;
+  padding-bottom: 0.08em;
+  font-weight: 700;
+  color: #555;
+}
+
+.unit-lbl.unit-lbl--sm { font-size: 16pt; }
+.unit-lbl.unit-lbl--xs { font-size: 14pt; }
+.unit-lbl.unit-lbl--xxs { font-size: 12.5pt; }
