@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spec Sheet Generator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+    background: #f4f6f8;
+    color: #1a1a1a;
+    padding: 40px 24px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 700; color: #0D1F38; margin-bottom: 4px; }
+  .sub { font-size: 13px; color: #666; margin-bottom: 36px; }
+
+  .tenant-block { margin-bottom: 36px; }
+  .tenant-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #888;
+    border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 14px;
+  }
+  .grid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .card {
+    background: #fff;
+    border: 1px solid #e2e6ea;
+    border-radius: 8px;
+    padding: 16px 20px;
+    min-width: 160px;
+  }
+  .card-id { font-size: 17px; font-weight: 700; color: #0D1F38; margin-bottom: 12px; }
+  .links { display: flex; flex-direction: column; gap: 7px; }
+  .links a {
+    font-size: 13px; color: #1a6fdf; text-decoration: none;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .links a:hover { text-decoration: underline; }
+  .badge {
+    font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .badge-html { background: #e8f0fe; color: #1a6fdf; }
+  .badge-pdf  { background: #fce8e8; color: #c5221f; }
+  .empty { font-size: 13px; color: #999; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Spec Sheet Generator</h1>
+  <p class="sub">On-demand PDF spec sheets for equipment listings.</p>
+
+  <% items.forEach(({ tenant, units }) => { %>
+  <div class="tenant-block">
+    <div class="tenant-label"><%= tenant.toUpperCase() %></div>
+    <% if (units.length === 0) { %>
+    <p class="empty">No units found. Add a folder to config/<%= tenant %>/units/</p>
+    <% } else { %>
+    <div class="grid">
+      <% units.forEach(uid => { %>
+      <div class="card">
+        <div class="card-id"><%= uid %></div>
+        <div class="links">
+          <a href="/preview/<%= tenant %>/<%= uid %>">
+            <span class="badge badge-html">HTML</span> Preview
+          </a>
+          <a href="/pdf-view/<%= tenant %>/<%= uid %>" target="_blank">
+            <span class="badge badge-pdf">PDF</span> Preview
+          </a>
+          <a href="/pdf/<%= tenant %>/<%= uid %>">
+            <span class="badge badge-pdf">PDF</span> Download
+          </a>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } %>
+  </div>
+  <% }) %>
+</div>
+</body>
+</html>

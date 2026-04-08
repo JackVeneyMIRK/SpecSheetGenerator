@@ -1,0 +1,23 @@
+UNIT: SAMPLE
+TITLE: Sample Unit — Replace with actual equipment description
+YEAR: 2024
+TYPE: Aerial Device
+
+[CAB AND CHASSIS]
+Replace with actual cab specifications
+Year, Make, Model
+VIN, GVWR, engine details
+Transmission, steering, brakes
+Options and accessories
+
+[AERIAL DEVICE]
+Replace with aerial device specifications
+Manufacturer, model, serial number
+Working height and reach
+Capacity and control details
+
+[BODY]
+Replace with body specifications
+Body make and model
+Compartment and storage details
+Additional equipment
