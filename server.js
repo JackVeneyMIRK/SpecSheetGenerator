@@ -39,13 +39,13 @@ function listTenants() {
   );
 }
 
-function buildData(tenant, unitId) {
+async function buildData(tenant, unitId) {
   const company = loadCompany(tenant);
   const brand   = loadBrand(tenant);
   const unitDir = path.join(ROOT, 'config', tenant, 'units', unitId);
   if (!fs.existsSync(unitDir)) throw Object.assign(new Error(`Unit not found: ${unitId}`), { status: 404 });
   const unit    = parseUnit(unitDir);
-  const photos  = unitPhotos(tenant, unitId);
+  const photos  = await unitPhotos(tenant, unitId);
   const logoUri        = logoDataUri(company.logo);
   const headerImageUri = logoDataUri(company.header_image) || null;
   return { company, brand, unit, photos, logoUri, headerImageUri };
@@ -53,7 +53,7 @@ function buildData(tenant, unitId) {
 
 async function renderSheet(tenant, unitId, asTenant) {
   const brandTenant  = asTenant || tenant;
-  const unitData     = buildData(tenant, unitId);
+  const unitData     = await buildData(tenant, unitId);
   // If rendering as a different tenant, swap in that tenant's company + brand
   if (asTenant && asTenant !== tenant) {
     unitData.company        = loadCompany(asTenant);

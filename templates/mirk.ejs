@@ -105,7 +105,6 @@
     flex: 1;
     min-height: 0;
     display: flex; flex-direction: column; gap: 0.1in;
-    overflow: hidden;
   }
 
   /* Right column: photo → odd section → photo */
@@ -113,7 +112,6 @@
     flex: 1.15;
     min-height: 0;
     display: flex; flex-direction: column; gap: 0.1in;
-    overflow: hidden;
   }
 
   /* Spec sections */
@@ -154,8 +152,8 @@
     display: block;
   }
 
-  .photo-hero  { flex: 2.2; }
-  .photo-small { flex: 1.1; }
+  .photo-hero  { flex: 2.5; min-height: 1.5in; max-height: 3.2in; }
+  .photo-small { flex: 1.3; min-height: 1in;   max-height: 2.1in; }
 
   /* ── Footer ─────────────────────────────────────────────────── */
   .foot {
@@ -211,35 +209,12 @@
       Left  col: sections 0, 2, 4 ...  (CAB & CHASSIS, BODY, ...)
       Right col: hero photo → section 1 → secondary photo → section 3 ...
   -->
-  <%
-    const leftSecs  = unit.sections.filter((_, i) => i % 2 === 0);
-    const rightSecs = unit.sections.filter((_, i) => i % 2 === 1);
-    const heroPhoto  = photos[0] || null;
-    const extraPhoto = photos[1] || null;
-  %>
   <div class="columns">
 
-    <!-- Left column -->
+    <!-- Left col: even sections + odd photos (1, 3, ...) -->
     <div class="col-left">
-      <% leftSecs.forEach(s => { %>
-      <div class="sec">
-        <div class="sec-hd"><%= s.heading %></div>
-        <ul>
-          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
-        </ul>
-      </div>
-      <% }) %>
-    </div>
-
-    <!-- Right column -->
-    <div class="col-right">
-      <% if (heroPhoto) { %>
-      <div class="photo photo-hero">
-        <img src="<%= heroPhoto.dataUri %>" alt="">
-      </div>
-      <% } %>
-
-      <% rightSecs.forEach((s, i) => { %>
+      <% unit.sections.forEach((s, i) => { %>
+      <% if (i % 2 === 0) { %>
       <div class="sec">
         <div class="sec-hd"><%= s.heading %></div>
         <ul>
@@ -248,17 +223,35 @@
       </div>
       <% if (photos[i + 1]) { %>
       <div class="photo photo-small">
-        <img src="<%= photos[i + 1].dataUri %>" alt="">
+        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= photos[i + 1].focalX %>% <%= photos[i + 1].focalY %>%">
       </div>
+      <% } %>
       <% } %>
       <% }) %>
+    </div>
 
-      <!-- If no right sections, show secondary photo directly -->
-      <% if (rightSecs.length === 0 && extraPhoto) { %>
-      <div class="photo photo-small">
-        <img src="<%= extraPhoto.dataUri %>" alt="">
+    <!-- Right col: photo[0] first, then odd sections + even photos (2, 4, ...) -->
+    <div class="col-right">
+      <% if (photos[0]) { %>
+      <div class="photo photo-hero">
+        <img src="<%= photos[0].dataUri %>" alt="" style="object-position: <%= photos[0].focalX %>% <%= photos[0].focalY %>%">
       </div>
       <% } %>
+      <% unit.sections.forEach((s, i) => { %>
+      <% if (i % 2 === 1) { %>
+      <div class="sec">
+        <div class="sec-hd"><%= s.heading %></div>
+        <ul>
+          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
+        </ul>
+      </div>
+      <% if (photos[i + 1]) { %>
+      <div class="photo photo-small">
+        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= photos[i + 1].focalX %>% <%= photos[i + 1].focalY %>%">
+      </div>
+      <% } %>
+      <% } %>
+      <% }) %>
     </div>
 
   </div>
