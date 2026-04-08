@@ -4,25 +4,42 @@
 <meta charset="UTF-8">
 <title>#<%= unit.unit %> – Spec Sheet</title>
 <style>
+  :root {
+    --primary: <%= brand.primary %>;
+    --accent:  <%= brand.accent %>;
+  }
+
   *, *::before, *::after {
     margin: 0; padding: 0; box-sizing: border-box;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  @page { size: letter portrait; margin: 0; }
+  /* Margins live here — Chromium's print engine applies them evenly on all 4 sides */
+  @page { size: letter portrait; margin: 0.25in; }
 
   html, body {
-    width: 8.5in; height: 11in;
+    width: 8in; height: 10.5in;
     font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
     background: #fff;
     color: #1a1a1a;
   }
 
   .page {
-    width: 8.5in; height: 11in;
+    /* Content area after @page margins: 8in × 10.5in */
+    width: 8in; height: 10.5in;
     display: flex; flex-direction: column;
     overflow: hidden;
+  }
+
+  /* ── Header image (full-width SVG letterhead) ───────────────── */
+  .hdr-image {
+    flex-shrink: 0;
+    line-height: 0;
+  }
+
+  .hdr-image img {
+    width: 100%; height: auto; display: block;
   }
 
   /* ── Header (white, tall — matching letterhead) ──────────────── */
@@ -32,7 +49,7 @@
     padding: 0.16in 0.38in;
     flex-shrink: 0;
     min-height: 1.1in;
-    border-bottom: 2.5px solid #1A2D62;
+    border-bottom: 2.5px solid var(--primary);
   }
 
   .hdr-logo img {
@@ -40,7 +57,7 @@
   }
 
   .hdr-logo span {
-    font-size: 26pt; font-weight: 800; color: #1A2D62; letter-spacing: -0.02em;
+    font-size: 26pt; font-weight: 800; color: var(--primary); letter-spacing: -0.02em;
   }
 
   .hdr-center {
@@ -50,15 +67,15 @@
   }
 
   .hdr-company {
-    font-size: 14pt; font-weight: 700;
-    color: #1A2D62; letter-spacing: -0.01em; line-height: 1;
+    font-size: 20pt; font-weight: 800;
+    color: var(--primary); letter-spacing: -0.02em; line-height: 1;
   }
 
   .hdr-right { text-align: right; }
 
   .hdr-phone {
     font-size: 14pt; font-weight: 700;
-    color: #1A2D62; letter-spacing: -0.01em; line-height: 1;
+    color: var(--primary); letter-spacing: -0.01em; line-height: 1;
   }
 
   .hdr-detail {
@@ -68,14 +85,14 @@
 
   /* ── Gold accent bar ─────────────────────────────────────────── */
   .accent {
-    background: #D4B030;
+    background: var(--accent);
     height: 5px;
     flex-shrink: 0;
   }
 
   /* ── Navy tagline bar ────────────────────────────────────────── */
   .tagline {
-    background: #1A2D62;
+    background: var(--primary);
     padding: 4px 0.38in;
     flex-shrink: 0;
   }
@@ -90,17 +107,17 @@
   .unit-hdr {
     padding: 0.08in 0.38in 0.065in;
     display: flex; align-items: baseline; gap: 0.12in;
-    border-bottom: 2.5px solid #D4B030;
+    border-bottom: 2.5px solid var(--accent);
     flex-shrink: 0;
   }
 
   .unit-num {
     font-size: 19pt; font-weight: 800;
-    color: #1A2D62; letter-spacing: -0.02em; line-height: 1;
+    color: var(--primary); letter-spacing: -0.02em; line-height: 1;
   }
 
   .unit-lbl {
-    font-size: 8.5pt; font-weight: 500; color: #555; line-height: 1;
+    font-size: 14pt; font-weight: 700; color: #555; line-height: 1;
   }
 
   /* ── Two-column staggered content ────────────────────────────── */
@@ -113,12 +130,14 @@
 
   .col-left {
     flex: 1;
+    min-height: 0;
     display: flex; flex-direction: column; gap: 0.1in;
     overflow: hidden;
   }
 
   .col-right {
     flex: 1.15;
+    min-height: 0;
     display: flex; flex-direction: column; gap: 0.1in;
     overflow: hidden;
   }
@@ -127,9 +146,9 @@
 
   .sec-hd {
     font-size: 6.8pt; font-weight: 700;
-    color: #1A2D62; text-transform: uppercase;
+    color: var(--primary); text-transform: uppercase;
     letter-spacing: 0.07em;
-    border-bottom: 1.5px solid #D4B030;
+    border-bottom: 1.5px solid var(--accent);
     padding-bottom: 2px; margin-bottom: 3px;
   }
 
@@ -144,7 +163,7 @@
   .sec ul li::before {
     content: '▸';
     position: absolute; left: 0; top: 0.5px;
-    color: #1A2D62; font-size: 4.8pt; line-height: 1.65;
+    color: var(--primary); font-size: 4.8pt; line-height: 1.65;
   }
 
   .photo {
@@ -164,28 +183,42 @@
 
   /* ── Footer ─────────────────────────────────────────────────── */
   .foot {
-    background: #1A2D62;
+    background: var(--primary);
     padding: 0;
     flex-shrink: 0;
   }
 
-  .foot-gold { background: #D4B030; height: 4px; }
+  .foot-gold { background: var(--accent); height: 4px; }
 
   .foot-text {
-    padding: 5px 0.38in;
+    padding: 7px 0.38in 8px;
+    text-align: center;
   }
 
   .foot-text span {
-    color: rgba(255,255,255,0.9);
-    font-size: 5.5pt; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.07em;
+    display: block;
+    color: rgba(255,255,255,0.95);
+    font-size: 7.5pt; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    line-height: 1.6;
+  }
+
+  .foot-text-2 {
+    color: rgba(255,255,255,0.95) !important;
+    font-size: 7.5pt !important; font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
   }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- Header (letterhead style) -->
+  <!-- Header -->
+  <% if (headerImageUri) { %>
+  <header class="hdr-image">
+    <img src="<%= headerImageUri %>" alt="<%= company.name %>">
+  </header>
+  <% } else { %>
   <header class="hdr">
     <div class="hdr-logo">
       <% if (logoUri) { %>
@@ -201,22 +234,22 @@
       <% if (company.phone) { %>
       <div class="hdr-phone"><%= company.phone %></div>
       <% } %>
-      <div class="hdr-detail">
-        <%= company.website %>
-        <% if (company.email) { %>&nbsp; &bull; &nbsp;<%= company.email %><% } %>
-      </div>
       <% if (company.address || company.city) { %>
       <div class="hdr-detail">
         <%= company.address %>
-        <% if (company.city) { %>&nbsp;&bull;&nbsp; <%= company.city %><% } %>
+        <% if (company.city) { %>&nbsp; | &nbsp;<%= company.city %><% } %>
       </div>
       <% } %>
+      <div class="hdr-detail">
+        <%= company.website %>
+        <% if (company.email) { %>&nbsp; | &nbsp;<%= company.email %><% } %>
+      </div>
     </div>
   </header>
-
   <!-- Gold accent line + navy tagline -->
   <div class="accent"></div>
   <div class="tagline"><span><%= company.tagline %></span></div>
+  <% } %>
 
   <!-- Unit title -->
   <div class="unit-hdr">
@@ -276,7 +309,12 @@
   <!-- Footer -->
   <footer class="foot">
     <div class="foot-gold"></div>
-    <div class="foot-text"><span><%= company.footer_cta %></span></div>
+    <div class="foot-text">
+      <span><%= company.footer_cta %></span>
+      <% if (company.footer_cta2) { %>
+      <span class="foot-text-2"><%= company.footer_cta2 %></span>
+      <% } %>
+    </div>
   </footer>
 
 </div>

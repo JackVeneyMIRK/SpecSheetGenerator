@@ -20,6 +20,11 @@ function loadCompany(tenant) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
+function loadBrand(tenant) {
+  const file = path.join(ROOT, 'config', tenant, 'brand.json');
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
 function listUnits(tenant) {
   const dir = path.join(ROOT, 'config', tenant, 'units');
   if (!fs.existsSync(dir)) return [];
@@ -36,19 +41,29 @@ function listTenants() {
 
 function buildData(tenant, unitId) {
   const company = loadCompany(tenant);
+  const brand   = loadBrand(tenant);
   const unitDir = path.join(ROOT, 'config', tenant, 'units', unitId);
   if (!fs.existsSync(unitDir)) throw Object.assign(new Error(`Unit not found: ${unitId}`), { status: 404 });
   const unit    = parseUnit(unitDir);
   const photos  = unitPhotos(tenant, unitId);
-  const logoUri = logoDataUri(company.logo);
-  return { company, unit, photos, logoUri };
+  const logoUri        = logoDataUri(company.logo);
+  const headerImageUri = logoDataUri(company.header_image) || null;
+  return { company, brand, unit, photos, logoUri, headerImageUri };
 }
 
-async function renderSheet(tenant, unitId) {
-  const data         = buildData(tenant, unitId);
-  const templatePath = path.join(ROOT, 'templates', `${tenant}.ejs`);
-  if (!fs.existsSync(templatePath)) throw new Error(`No template for tenant: ${tenant}`);
-  return ejs.renderFile(templatePath, data);
+async function renderSheet(tenant, unitId, asTenant) {
+  const brandTenant  = asTenant || tenant;
+  const unitData     = buildData(tenant, unitId);
+  // If rendering as a different tenant, swap in that tenant's company + brand
+  if (asTenant && asTenant !== tenant) {
+    unitData.company        = loadCompany(asTenant);
+    unitData.brand          = loadBrand(asTenant);
+    unitData.logoUri        = logoDataUri(unitData.company.logo);
+    unitData.headerImageUri = logoDataUri(unitData.company.header_image) || null;
+  }
+  const templatePath = path.join(ROOT, 'templates', `${brandTenant}.ejs`);
+  if (!fs.existsSync(templatePath)) throw new Error(`No template for tenant: ${brandTenant}`);
+  return ejs.renderFile(templatePath, unitData);
 }
 
 function resolveTenant(req) {
@@ -68,18 +83,35 @@ app.get('/', async (_req, res) => {
 // Preview (explicit tenant in URL)
 app.get('/preview/:tenant/:unitId', async (req, res) => {
   const { tenant, unitId } = req.params;
+  const asTenant = req.query.as || null;
   try {
-    res.send(await renderSheet(tenant, unitId));
+    res.send(await renderSheet(tenant, unitId, asTenant));
   } catch (e) {
     res.status(e.status ?? 500).send(`<pre style="font:14px monospace;padding:24px">${e.stack}</pre>`);
+  }
+});
+
+// PDF inline preview (explicit tenant in URL)
+app.get('/pdf-view/:tenant/:unitId', async (req, res) => {
+  const { tenant, unitId } = req.params;
+  const asTenant = req.query.as || null;
+  try {
+    const html = await renderSheet(tenant, unitId, asTenant);
+    const buf  = await generatePDF(html);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `inline; filename="${unitId}.pdf"`);
+    res.send(buf);
+  } catch (e) {
+    res.status(e.status ?? 500).send(`Error: ${e.message}`);
   }
 });
 
 // PDF download (explicit tenant in URL)
 app.get('/pdf/:tenant/:unitId', async (req, res) => {
   const { tenant, unitId } = req.params;
+  const asTenant = req.query.as || null;
   try {
-    const html = await renderSheet(tenant, unitId);
+    const html = await renderSheet(tenant, unitId, asTenant);
     const buf  = await generatePDF(html);
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="${unitId}.pdf"`);

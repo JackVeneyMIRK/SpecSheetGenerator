@@ -4,23 +4,30 @@
 <meta charset="UTF-8">
 <title>MIRK #<%= unit.unit %></title>
 <style>
+  :root {
+    --primary: <%= brand.primary %>;
+    --accent:  <%= brand.accent %>;
+  }
+
   *, *::before, *::after {
     margin: 0; padding: 0; box-sizing: border-box;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  @page { size: letter portrait; margin: 0; }
+  /* Margins live here — Chromium's print engine applies them evenly on all 4 sides */
+  @page { size: letter portrait; margin: 0.25in; }
 
   html, body {
-    width: 8.5in; height: 11in;
+    width: 8in; height: 10.5in;
     font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
     background: #fff;
     color: #1a1a1a;
   }
 
   .page {
-    width: 8.5in; height: 11in;
+    /* Content area after @page margins: 8in × 10.5in */
+    width: 8in; height: 10.5in;
     display: flex; flex-direction: column;
     overflow: hidden;
   }
@@ -40,14 +47,14 @@
   }
 
   .hdr-logo span {
-    font-size: 28pt; font-weight: 800; color: #1E7832; letter-spacing: -0.02em;
+    font-size: 28pt; font-weight: 800; color: var(--primary); letter-spacing: -0.02em;
   }
 
   .hdr-right { text-align: right; }
 
   .hdr-phone {
     font-size: 20pt; font-weight: 700;
-    color: #1E7832; letter-spacing: -0.02em; line-height: 1;
+    color: var(--primary); letter-spacing: -0.02em; line-height: 1;
   }
 
   .hdr-detail {
@@ -57,7 +64,7 @@
 
   /* ── Green tagline bar ───────────────────────────────────────── */
   .tagline {
-    background: #1E7832;
+    background: var(--primary);
     padding: 4px 0.38in;
     flex-shrink: 0;
   }
@@ -72,13 +79,13 @@
   .unit-hdr {
     padding: 0.08in 0.38in 0.065in;
     display: flex; align-items: baseline; gap: 0.12in;
-    border-bottom: 2.5px solid #1E7832;
+    border-bottom: 2.5px solid var(--primary);
     flex-shrink: 0;
   }
 
   .unit-num {
     font-size: 19pt; font-weight: 800;
-    color: #1E7832; letter-spacing: -0.02em; line-height: 1;
+    color: var(--primary); letter-spacing: -0.02em; line-height: 1;
   }
 
   .unit-lbl {
@@ -96,6 +103,7 @@
   /* Left column: even-indexed sections (0, 2, ...) */
   .col-left {
     flex: 1;
+    min-height: 0;
     display: flex; flex-direction: column; gap: 0.1in;
     overflow: hidden;
   }
@@ -103,6 +111,7 @@
   /* Right column: photo → odd section → photo */
   .col-right {
     flex: 1.15;
+    min-height: 0;
     display: flex; flex-direction: column; gap: 0.1in;
     overflow: hidden;
   }
@@ -112,9 +121,9 @@
 
   .sec-hd {
     font-size: 6.8pt; font-weight: 700;
-    color: #1E7832; text-transform: uppercase;
+    color: var(--primary); text-transform: uppercase;
     letter-spacing: 0.07em;
-    border-bottom: 1.5px solid #1E7832;
+    border-bottom: 1.5px solid var(--primary);
     padding-bottom: 2px; margin-bottom: 3px;
   }
 
@@ -129,7 +138,7 @@
   .sec ul li::before {
     content: '▸';
     position: absolute; left: 0; top: 0.5px;
-    color: #1E7832; font-size: 4.8pt; line-height: 1.65;
+    color: var(--primary); font-size: 4.8pt; line-height: 1.65;
   }
 
   /* Photos */
@@ -150,7 +159,7 @@
 
   /* ── Footer ─────────────────────────────────────────────────── */
   .foot {
-    background: #1E7832;
+    background: var(--primary);
     padding: 5.5px 0.38in;
     flex-shrink: 0;
   }
