@@ -6,16 +6,19 @@
     <span>MIRK</span>
     <% } %>
   </div>
+  <div class="hdr-center">
+    <div class="hdr-company"><%= company.name %></div>
+  </div>
   <div class="hdr-right">
     <div class="hdr-phone"><%= company.phone %></div>
     <div class="hdr-detail">
-      <%= company.website %>
-      <% if (company.email) { %>&nbsp; &bull; &nbsp;<%= company.email %><% } %>
+      <%= company.address %>
+      <% if (company.city) { %> <span class="hdr-sep">&bull;</span> <%= company.city %><% } %>
+      <% if (company.fax) { %> <span class="hdr-sep">&bull;</span> Fax: <%= company.fax %><% } %>
     </div>
     <div class="hdr-detail">
-      <%= company.address %>
-      <% if (company.city) { %>&nbsp; <%= company.city %><% } %>
-      <% if (company.fax) { %>&nbsp; &bull; &nbsp;Fax: <%= company.fax %><% } %>
+      <% if (company.website) { %><a class="hdr-link" href="https://<%= company.website %>"><%= company.website %></a><% } %>
+      <% if (company.email) { %> <span class="hdr-sep">&bull;</span> <a class="hdr-link" href="mailto:<%= company.email %>"><%= company.email %></a><% } %>
     </div>
   </div>
 </header>
