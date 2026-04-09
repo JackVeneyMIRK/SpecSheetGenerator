@@ -24,8 +24,18 @@ export async function GET(request, { params }) {
       },
     });
   } catch (error) {
-    const message = error?.message || 'Unable to generate PDF';
+    console.error('Failed to generate PDF', {
+      tenant,
+      unitId,
+      asTenant,
+      error,
+    });
+
     const status = error?.status || 500;
+    const message =
+      process.env.NODE_ENV !== 'production'
+        ? error?.message || 'Unable to generate PDF'
+        : 'Unable to generate PDF';
     return new Response(`Error: ${message}`, { status });
   }
 }
