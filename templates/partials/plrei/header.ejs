@@ -21,12 +21,12 @@
     <% if (company.address || company.city) { %>
     <div class="hdr-detail">
       <%= company.address %>
-      <% if (company.city) { %>&nbsp; | &nbsp;<%= company.city %><% } %>
+      <% if (company.city) { %> <span class="hdr-sep">&bull;</span> <%= company.city %><% } %>
     </div>
     <% } %>
     <div class="hdr-detail">
-      <%= company.website %>
-      <% if (company.email) { %>&nbsp; | &nbsp;<%= company.email %><% } %>
+      <% if (company.website) { %><a class="hdr-link" href="https://<%= company.website %>"><%= company.website %></a><% } %>
+      <% if (company.email) { %> <span class="hdr-sep">&bull;</span> <a class="hdr-link" href="mailto:<%= company.email %>"><%= company.email %></a><% } %>
     </div>
   </div>
 </header>

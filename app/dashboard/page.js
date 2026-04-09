@@ -1,46 +1,38 @@
 import Link from 'next/link';
 import serviceModule from '@/lib/specSheetService';
 
-const { listTenants, listUnits } = serviceModule;
+const { listTenantSummaries } = serviceModule;
 
 export const dynamic = 'force-dynamic';
 
 export default function DashboardPage() {
-  const tenants = listTenants();
-  const tenantData = tenants.map((tenant) => ({
-    tenant,
-    units: listUnits(tenant),
-  }));
+  const tenants = listTenantSummaries();
 
   return (
-    <main className="shell">
-      <div className="toolbar">
-        <h1>Spec Sheet Dashboard</h1>
-        <form method="post" action="/api/logout">
-          <button className="button secondary" type="submit">
-            Sign Out
-          </button>
-        </form>
-      </div>
+    <main className="admin-page">
+      <header className="admin-header">
+        <h2>Global Overview</h2>
+        <p>Select a tenant workspace</p>
+      </header>
 
-      <div className="card grid">
-        {tenantData.map((group) => (
-          <section className="tenant-block" key={group.tenant}>
-            <h2>{group.tenant.toUpperCase()}</h2>
-            <div className="unit-list">
-              {group.units.map((unitId) => (
-                <Link
-                  className="pill"
-                  key={`${group.tenant}-${unitId}`}
-                  href={`/dashboard/${group.tenant}/${unitId}`}
-                >
-                  {unitId}
-                </Link>
-              ))}
+      <section className="overview-grid">
+        {tenants.map((tenant) => (
+          <article key={tenant.tenant} className="overview-card">
+            <div className="overview-card-top">
+              <div>
+                <p className="tenant-label">{tenant.tenant.toUpperCase()}</p>
+                <h3>{tenant.companyName}</h3>
+              </div>
             </div>
-          </section>
+
+            <div className="unit-actions">
+              <Link className="button" href={`/dashboard/${tenant.tenant}`}>
+                Open Tenant
+              </Link>
+            </div>
+          </article>
         ))}
-      </div>
+      </section>
     </main>
   );
 }
