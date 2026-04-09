@@ -1,3 +1,13 @@
 <footer class="foot">
-  <span><%= company.footer_cta %></span>
+  <div class="foot-text">
+    <span><%= company.footer_cta %></span>
+    <% if (company.footer_cta2) { %>
+    <span>
+      <% const footerItems = company.footer_cta2.split('|').map(s => s.trim()).filter(Boolean); %>
+      <% footerItems.forEach((item, idx) => { %>
+        <%= item %><% if (idx < footerItems.length - 1) { %> &bull; <% } %>
+      <% }) %>
+    </span>
+    <% } %>
+  </div>
 </footer>
