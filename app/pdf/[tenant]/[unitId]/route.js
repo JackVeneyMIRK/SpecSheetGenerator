@@ -23,6 +23,19 @@ export async function GET(request, { params }) {
     });
   } catch (error) {
     const status = error?.status || 500;
-    return new Response(`Error: ${error?.message || 'Unable to generate PDF'}`, { status });
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
+    console.error('Failed to generate PDF', {
+      tenant,
+      unitId,
+      asTenant,
+      error,
+    });
+
+    const message = isDevelopment
+      ? `Error: ${error?.message || 'Unable to generate PDF'}`
+      : 'Error: Unable to generate PDF';
+
+    return new Response(message, { status });
   }
 }
