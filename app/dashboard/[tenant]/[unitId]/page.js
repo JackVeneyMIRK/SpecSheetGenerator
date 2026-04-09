@@ -13,43 +13,38 @@ export default async function UnitPage({ params }) {
   const data = await buildData(tenant, unitId);
 
   return (
-    <main className="shell">
-      <div className="toolbar">
-        <div>
-          <h1>
-            {tenant.toUpperCase()} / {unitId}
-          </h1>
-          <p>{data.unit.title || 'Untitled Unit'}</p>
-        </div>
-        <Link className="button secondary" href="/dashboard">
-          Back
-        </Link>
-      </div>
+    <main className="admin-page">
+      <header className="admin-header">
+        <h2>{unitId}</h2>
+        <p>{tenant.toUpperCase()}</p>
+      </header>
 
-      <div className="card">
-        <p>
+      <section className="unit-card-v2">
+        <div className="unit-card-head">
+          <h3>{data.unit.title || 'Untitled Unit'}</h3>
+          <span className="tenant-count">{data.photos.length} photos</span>
+        </div>
+        <p className="unit-meta mt">
           <strong>Type:</strong> {data.unit.type || 'N/A'}
         </p>
-        <p>
+        <p className="unit-meta">
           <strong>Year:</strong> {data.unit.year || 'N/A'}
         </p>
-        <p>
-          <strong>Photos:</strong> {data.photos.length}
-        </p>
-        <p>
-          <a href={`/preview/${spec}`} target="_blank" rel="noopener noreferrer">
+        <div className="unit-actions">
+          <Link className="button secondary" href={`/dashboard/${tenant}`}>
+            Back
+          </Link>
+          <a className="button ghost" href={`/preview/${spec}`} target="_blank" rel="noopener noreferrer">
             Open HTML Preview
           </a>
-          {' | '}
-          <a href={`/pdf-view/${spec}`} target="_blank" rel="noopener noreferrer">
+          <a className="button ghost" href={`/pdf-view/${spec}`} target="_blank" rel="noopener noreferrer">
             Open PDF Preview
           </a>
-          {' | '}
-          <a href={`/pdf/${spec}`} target="_blank" rel="noopener noreferrer">
+          <a className="button" href={`/pdf/${spec}`} target="_blank" rel="noopener noreferrer">
             Download PDF
           </a>
-        </p>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }
