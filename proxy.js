@@ -16,7 +16,7 @@ async function getExpectedToken() {
   const encoded = new TextEncoder().encode(password);
   const hashBuffer = await crypto.subtle.digest('SHA-256', encoded);
   _tokenCache = Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, '0'))
+    .map((b) => b.toString(16).padStart(2, '0'))
     .join('');
   return _tokenCache;
 }
@@ -24,7 +24,7 @@ async function getExpectedToken() {
 // Paths that must always pass through unauthenticated.
 const ALWAYS_ALLOW = new Set(['/login', '/api/login', '/api/logout']);
 
-export async function middleware(request) {
+export async function proxy(request) {
   if (AUTH_BYPASS) return NextResponse.next();
   const { pathname } = request.nextUrl;
 
@@ -34,7 +34,7 @@ export async function middleware(request) {
   if (!protectedRoute) return NextResponse.next();
 
   const token = request.cookies.get(COOKIE_NAME)?.value;
-  if (token && token === await getExpectedToken()) return NextResponse.next();
+  if (token && token === (await getExpectedToken())) return NextResponse.next();
 
   return NextResponse.redirect(new URL('/login', request.url));
 }

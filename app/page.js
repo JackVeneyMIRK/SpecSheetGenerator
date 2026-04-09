@@ -1,11 +1,18 @@
 import Link from 'next/link';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import serviceModule from '@/lib/specSheetService';
 
 const { listTenants, listUnits } = serviceModule;
 
 export const dynamic = 'force-dynamic';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const headerStore = await headers();
+  const host = (headerStore.get('host') || '').toLowerCase();
+  const hostname = host.split(':')[0];
+  if (hostname === 'localhost') redirect('/dashboard');
+
   const tenants = listTenants();
   const items = tenants.map((tenant) => ({ tenant, units: listUnits(tenant) }));
 
