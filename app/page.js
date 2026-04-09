@@ -33,7 +33,7 @@ export default function HomePage() {
                   <div className="pill" key={`${tenant}-${uid}`}>
                     <strong>{uid}</strong>&nbsp;|&nbsp;
                     <a href={`/preview/${tenant}/${uid}`}>HTML</a>&nbsp;|&nbsp;
-                    <a href={`/pdf-view/${tenant}/${uid}`} target="_blank">
+                    <a href={`/pdf-view/${tenant}/${uid}`} target="_blank" rel="noopener noreferrer">
                       PDF Preview
                     </a>
                     &nbsp;|&nbsp;

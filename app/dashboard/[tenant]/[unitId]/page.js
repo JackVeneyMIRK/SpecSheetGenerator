@@ -34,15 +34,15 @@ export default async function UnitPage({ params }) {
           <strong>Photos:</strong> {data.photos.length}
         </p>
         <p>
-          <a href={`/preview/${tenant}/${unitId}`} target="_blank">
+          <a href={`/preview/${tenant}/${unitId}`} target="_blank" rel="noopener noreferrer">
             Open HTML Preview
           </a>
           {' | '}
-          <a href={`/pdf-view/${tenant}/${unitId}`} target="_blank">
+          <a href={`/pdf-view/${tenant}/${unitId}`} target="_blank" rel="noopener noreferrer">
             Open PDF Preview
           </a>
           {' | '}
-          <a href={`/pdf/${tenant}/${unitId}`} target="_blank">
+          <a href={`/pdf/${tenant}/${unitId}`} target="_blank" rel="noopener noreferrer">
             Download PDF
           </a>
         </p>
