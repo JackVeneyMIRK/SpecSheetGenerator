@@ -1,13 +1,19 @@
 import serviceModule from '@/lib/specSheetService';
+import tenantModule from '@/lib/tenant';
 
 const { renderSheet } = serviceModule;
+const { tenantFromHost } = tenantModule;
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request, { params }) {
   const { tenant, unitId } = await params;
-  const asTenant = new URL(request.url).searchParams.get('as') || null;
+  const url = new URL(request.url);
+  const host = request.headers.get('host') || '';
+  const hostname = host.split(':')[0];
+  const hostTenant = tenantFromHost(hostname);
+  const asTenant = url.searchParams.get('as') || hostTenant || null;
 
   try {
     const html = await renderSheet(tenant, unitId, asTenant);
