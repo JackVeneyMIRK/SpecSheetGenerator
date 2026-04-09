@@ -24,6 +24,18 @@ export async function GET(request, { params }) {
     });
   } catch (error) {
     const status = error?.status || 500;
-    return new Response(`Error: ${error?.message || 'Unable to render unit'}`, { status });
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const message = isDevelopment
+      ? `Error: ${error?.message || 'Unable to render unit'}`
+      : 'Error: Unable to render unit';
+
+    console.error('Failed to render unit sheet', {
+      tenant,
+      unitId,
+      status,
+      error,
+    });
+
+    return new Response(message, { status });
   }
 }
