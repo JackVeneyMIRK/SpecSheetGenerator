@@ -1,19 +1,25 @@
 import serviceModule from '@/lib/specSheetService';
 import tenantModule from '@/lib/tenant';
+import specRefModule from '@/lib/specRef';
 
 const { renderSheet } = serviceModule;
 const { tenantFromHost } = tenantModule;
+const { decodeSpecRef } = specRefModule;
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request, { params }) {
-  const { tenant, unitId } = await params;
+  const { spec } = await params;
+  const decoded = decodeSpecRef(spec);
+  if (!decoded) return new Response('Not found', { status: 404 });
+
+  const { tenant, unitId } = decoded;
   const url = new URL(request.url);
   const host = request.headers.get('host') || '';
   const hostname = host.split(':')[0];
   const hostTenant = tenantFromHost(hostname);
-  const asTenant = url.searchParams.get('as') || hostTenant || null;
+  const asTenant = url.searchParams.get('as') || hostTenant || tenant;
 
   try {
     const html = await renderSheet(tenant, unitId, asTenant);

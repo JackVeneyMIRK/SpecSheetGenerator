@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import serviceModule from '@/lib/specSheetService';
+import specRefModule from '@/lib/specRef';
 
 const { buildData } = serviceModule;
+const { encodeSpecRef } = specRefModule;
 
 export const dynamic = 'force-dynamic';
 
 export default async function UnitPage({ params }) {
   const { tenant, unitId } = await params;
+  const spec = encodeSpecRef(tenant, unitId);
   const data = await buildData(tenant, unitId);
 
   return (
@@ -34,15 +37,15 @@ export default async function UnitPage({ params }) {
           <strong>Photos:</strong> {data.photos.length}
         </p>
         <p>
-          <a href={`/preview/${tenant}/${unitId}`} target="_blank" rel="noopener noreferrer">
+          <a href={`/preview/${spec}`} target="_blank" rel="noopener noreferrer">
             Open HTML Preview
           </a>
           {' | '}
-          <a href={`/pdf-view/${tenant}/${unitId}`} target="_blank" rel="noopener noreferrer">
+          <a href={`/pdf-view/${spec}`} target="_blank" rel="noopener noreferrer">
             Open PDF Preview
           </a>
           {' | '}
-          <a href={`/pdf/${tenant}/${unitId}`} target="_blank" rel="noopener noreferrer">
+          <a href={`/pdf/${spec}`} target="_blank" rel="noopener noreferrer">
             Download PDF
           </a>
         </p>

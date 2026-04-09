@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import serviceModule from '@/lib/specSheetService';
+import specRefModule from '@/lib/specRef';
 
 const { listTenants, listUnits } = serviceModule;
+const { encodeSpecRef } = specRefModule;
 
 export const dynamic = 'force-dynamic';
 
@@ -38,13 +40,20 @@ export default async function HomePage() {
               <div className="unit-list">
                 {units.map((uid) => (
                   <div className="pill" key={`${tenant}-${uid}`}>
+                    {(() => {
+                      const spec = encodeSpecRef(tenant, uid);
+                      return (
+                        <>
                     <strong>{uid}</strong>&nbsp;|&nbsp;
-                    <a href={`/preview/${tenant}/${uid}`}>HTML</a>&nbsp;|&nbsp;
-                    <a href={`/pdf-view/${tenant}/${uid}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`/preview/${spec}`}>HTML</a>&nbsp;|&nbsp;
+                    <a href={`/pdf-view/${spec}`} target="_blank" rel="noopener noreferrer">
                       PDF Preview
                     </a>
                     &nbsp;|&nbsp;
-                    <a href={`/pdf/${tenant}/${uid}`}>PDF</a>
+                    <a href={`/pdf/${spec}`}>PDF</a>
+                        </>
+                      );
+                    })()}
                   </div>
                 ))}
               </div>
