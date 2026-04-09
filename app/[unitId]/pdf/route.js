@@ -38,7 +38,7 @@ export async function GET(request, { params }) {
 
     const message = isDevelopment
       ? `Error: ${error?.message || 'Unable to generate PDF'}`
-      : 'Unable to generate PDF';
+      : 'Error: Unable to generate PDF';
 
     return new Response(message, { status });
   }

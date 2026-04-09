@@ -1,19 +1,40 @@
 import { NextResponse } from 'next/server';
-import authModule from '@/lib/auth';
 
-const { AUTH_BYPASS, COOKIE_NAME, getSessionToken } = authModule;
+// These constants are duplicated here so this file stays Edge-compatible.
+// lib/auth.js uses Node's `crypto` which is unavailable in the Edge runtime.
+const COOKIE_NAME = 'sg_session';
 
-export function middleware(request) {
+const AUTH_BYPASS =
+  process.env.NODE_ENV !== 'production' &&
+  process.env.AUTH_BYPASS === 'true';
+
+/** Compute the expected session token using the Web Crypto API (Edge-safe). */
+let _tokenCache = null;
+async function getExpectedToken() {
+  if (_tokenCache) return _tokenCache;
+  const password = process.env.DASHBOARD_PASSWORD || 'changeme';
+  const encoded = new TextEncoder().encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', encoded);
+  _tokenCache = Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+  return _tokenCache;
+}
+
+// Paths that must always pass through unauthenticated.
+const ALWAYS_ALLOW = new Set(['/login', '/api/login', '/api/logout']);
+
+export async function middleware(request) {
   if (AUTH_BYPASS) return NextResponse.next();
   const { pathname } = request.nextUrl;
 
-  if (pathname === '/login') return NextResponse.next();
+  if (ALWAYS_ALLOW.has(pathname)) return NextResponse.next();
 
   const protectedRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/api/');
   if (!protectedRoute) return NextResponse.next();
 
   const token = request.cookies.get(COOKIE_NAME)?.value;
-  if (token === getSessionToken()) return NextResponse.next();
+  if (token && token === await getExpectedToken()) return NextResponse.next();
 
   return NextResponse.redirect(new URL('/login', request.url));
 }
