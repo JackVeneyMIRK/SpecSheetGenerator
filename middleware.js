@@ -3,7 +3,7 @@ import authModule from '@/lib/auth';
 
 const { AUTH_BYPASS, COOKIE_NAME, getSessionToken } = authModule;
 
-export function proxy(request) {
+export function middleware(request) {
   if (AUTH_BYPASS) return NextResponse.next();
   const { pathname } = request.nextUrl;
 

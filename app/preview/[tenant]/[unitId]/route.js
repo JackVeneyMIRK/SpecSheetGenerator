@@ -16,8 +16,12 @@ export async function GET(request, { params }) {
       headers: { 'Content-Type': 'text/html; charset=utf-8' },
     });
   } catch (error) {
+    const isDev = process.env.NODE_ENV !== 'production';
     const status = error?.status || 500;
-    const message = error?.stack || error?.message || 'Unable to render preview';
+    if (!isDev) console.error('[preview] render error:', error?.stack || error);
+    const message = isDev
+      ? (error?.stack || error?.message || 'Unable to render preview')
+      : 'Unable to render preview';
     return new Response(`<pre style="font:14px monospace;padding:24px">${message}</pre>`, {
       status,
       headers: { 'Content-Type': 'text/html; charset=utf-8' },
