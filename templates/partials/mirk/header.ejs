@@ -1,0 +1,22 @@
+<header class="hdr">
+  <div class="hdr-logo">
+    <% if (logoUri) { %>
+    <img src="<%= logoUri %>" alt="<%= company.name %>">
+    <% } else { %>
+    <span>MIRK</span>
+    <% } %>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-phone"><%= company.phone %></div>
+    <div class="hdr-detail">
+      <%= company.website %>
+      <% if (company.email) { %>&nbsp; &bull; &nbsp;<%= company.email %><% } %>
+    </div>
+    <div class="hdr-detail">
+      <%= company.address %>
+      <% if (company.city) { %>&nbsp; <%= company.city %><% } %>
+      <% if (company.fax) { %>&nbsp; &bull; &nbsp;Fax: <%= company.fax %><% } %>
+    </div>
+  </div>
+</header>
+<div class="tagline"><span><%= company.tagline %></span></div>

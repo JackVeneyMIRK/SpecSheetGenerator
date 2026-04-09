@@ -2,15 +2,20 @@
   "name": "spec-sheet-generator",
   "version": "1.0.0",
   "description": "Multi-tenant equipment spec sheet PDF generator",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.19.2",
+    "next": "^16.2.3",
     "puppeteer": "^22.15.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "sharp": "^0.34.5"
   }
 }

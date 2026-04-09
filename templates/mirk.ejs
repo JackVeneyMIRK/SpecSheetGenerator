@@ -2,264 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MIRK #<%= unit.unit %></title>
+<title>#<%= unit.unit %> - Spec Sheet</title>
 <style>
   :root {
     --primary: <%= brand.primary %>;
     --accent:  <%= brand.accent %>;
+    --section-rule: var(--primary);
+    --photo-bg: #e8ece8;
   }
 
-  *, *::before, *::after {
-    margin: 0; padding: 0; box-sizing: border-box;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  /* Margins live here — Chromium's print engine applies them evenly on all 4 sides */
-  @page { size: letter portrait; margin: 0.25in; }
-
-  html, body {
-    width: 8in; height: 10.5in;
-    font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
-    background: #fff;
-    color: #1a1a1a;
-  }
-
-  .page {
-    /* Content area after @page margins: 8in × 10.5in */
-    width: 8in; height: 10.5in;
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
-
-  /* ── Header (taller, white bg) ───────────────────────────────── */
-  .hdr {
-    background: #fff;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.16in 0.38in;
-    border-bottom: 1px solid #d0d8d0;
-    flex-shrink: 0;
-    min-height: 1.1in;
-  }
-
-  .hdr-logo img {
-    height: 0.82in; width: auto; display: block;
-  }
-
-  .hdr-logo span {
-    font-size: 28pt; font-weight: 800; color: var(--primary); letter-spacing: -0.02em;
-  }
-
-  .hdr-right { text-align: right; }
-
-  .hdr-phone {
-    font-size: 20pt; font-weight: 700;
-    color: var(--primary); letter-spacing: -0.02em; line-height: 1;
-  }
-
-  .hdr-detail {
-    font-size: 7.5pt; color: #444;
-    margin-top: 4px; line-height: 1.5;
-  }
-
-  /* ── Green tagline bar ───────────────────────────────────────── */
-  .tagline {
-    background: var(--primary);
-    padding: 4px 0.38in;
-    flex-shrink: 0;
-  }
-
-  .tagline span {
-    color: rgba(255,255,255,0.88);
-    font-size: 5.8pt; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.08em;
-  }
-
-  /* ── Unit title ─────────────────────────────────────────────── */
-  .unit-hdr {
-    padding: 0.08in 0.38in 0.065in;
-    display: flex; align-items: baseline; gap: 0.12in;
-    border-bottom: 2.5px solid var(--primary);
-    flex-shrink: 0;
-  }
-
-  .unit-num {
-    font-size: 19pt; font-weight: 800;
-    color: var(--primary); letter-spacing: -0.02em; line-height: 1;
-  }
-
-  .unit-lbl {
-    font-size: 8.5pt; font-weight: 500; color: #555; line-height: 1;
-  }
-
-  /* ── Two-column staggered content ────────────────────────────── */
-  .columns {
-    flex: 1; min-height: 0;
-    display: flex; gap: 0.18in;
-    padding: 0.09in 0.38in 0.07in;
-    overflow: hidden;
-  }
-
-  /* Left column: even-indexed sections (0, 2, ...) */
-  .col-left {
-    flex: 1;
-    min-height: 0;
-    display: flex; flex-direction: column; gap: 0.1in;
-  }
-
-  /* Right column: photo → odd section → photo */
-  .col-right {
-    flex: 1.15;
-    min-height: 0;
-    display: flex; flex-direction: column; gap: 0.1in;
-  }
-
-  /* Spec sections */
-  .sec { flex-shrink: 0; }
-
-  .sec-hd {
-    font-size: 6.8pt; font-weight: 700;
-    color: var(--primary); text-transform: uppercase;
-    letter-spacing: 0.07em;
-    border-bottom: 1.5px solid var(--primary);
-    padding-bottom: 2px; margin-bottom: 3px;
-  }
-
-  .sec ul { list-style: none; }
-
-  .sec ul li {
-    font-size: 6.6pt; line-height: 1.5;
-    color: #1a1a1a;
-    padding-left: 8px; position: relative;
-  }
-
-  .sec ul li::before {
-    content: '▸';
-    position: absolute; left: 0; top: 0.5px;
-    color: var(--primary); font-size: 4.8pt; line-height: 1.65;
-  }
-
-  /* Photos */
-  .photo {
-    border-radius: 3px; overflow: hidden;
-    background: #e8ece8;
-    min-height: 0;
-  }
-
-  .photo img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
-    display: block;
-  }
-
-  .photo-hero  { flex: 2.5; min-height: 1.5in; max-height: 3.2in; }
-  .photo-small { flex: 1.3; min-height: 1in;   max-height: 2.1in; }
-
-  /* ── Footer ─────────────────────────────────────────────────── */
-  .foot {
-    background: var(--primary);
-    padding: 5.5px 0.38in;
-    flex-shrink: 0;
-  }
-
-  .foot span {
-    color: rgba(255,255,255,0.92);
-    font-size: 5.5pt; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.07em;
-  }
+  <%- include('partials/common/base-css') %>
+  <%- include('partials/mirk/header-css') %>
+  <%- include('partials/mirk/unit-css') %>
+  <%- include('partials/common/body-css') %>
+  <%- include('partials/mirk/footer-css') %>
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- Header -->
-  <header class="hdr">
-    <div class="hdr-logo">
-      <% if (logoUri) { %>
-      <img src="<%= logoUri %>" alt="<%= company.name %>">
-      <% } else { %>
-      <span>MIRK</span>
-      <% } %>
-    </div>
-    <div class="hdr-right">
-      <div class="hdr-phone"><%= company.phone %></div>
-      <div class="hdr-detail">
-        <%= company.website %>
-        <% if (company.email) { %>&nbsp; &bull; &nbsp;<%= company.email %><% } %>
-      </div>
-      <div class="hdr-detail">
-        <%= company.address %>
-        <% if (company.city) { %>&nbsp; <%= company.city %><% } %>
-        <% if (company.fax) { %>&nbsp; &bull; &nbsp;Fax: <%= company.fax %><% } %>
-      </div>
-    </div>
-  </header>
-
-  <!-- Green tagline bar -->
-  <div class="tagline"><span><%= company.tagline %></span></div>
-
-  <!-- Unit title -->
-  <div class="unit-hdr">
-    <span class="unit-num">MIRK&nbsp;#<%= unit.unit %></span>
-    <% if (unit.title) { %><span class="unit-lbl"><%= unit.title %></span><% } %>
-  </div>
-
-  <!--
-    Staggered two-column layout (mirrors original MIRK style):
-      Left  col: sections 0, 2, 4 ...  (CAB & CHASSIS, BODY, ...)
-      Right col: hero photo → section 1 → secondary photo → section 3 ...
-  -->
-  <div class="columns">
-
-    <!-- Left col: even sections + odd photos (1, 3, ...) -->
-    <div class="col-left">
-      <% unit.sections.forEach((s, i) => { %>
-      <% if (i % 2 === 0) { %>
-      <div class="sec">
-        <div class="sec-hd"><%= s.heading %></div>
-        <ul>
-          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
-        </ul>
-      </div>
-      <% if (photos[i + 1]) { %>
-      <div class="photo photo-small">
-        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= photos[i + 1].focalX %>% <%= photos[i + 1].focalY %>%">
-      </div>
-      <% } %>
-      <% } %>
-      <% }) %>
-    </div>
-
-    <!-- Right col: photo[0] first, then odd sections + even photos (2, 4, ...) -->
-    <div class="col-right">
-      <% if (photos[0]) { %>
-      <div class="photo photo-hero">
-        <img src="<%= photos[0].dataUri %>" alt="" style="object-position: <%= photos[0].focalX %>% <%= photos[0].focalY %>%">
-      </div>
-      <% } %>
-      <% unit.sections.forEach((s, i) => { %>
-      <% if (i % 2 === 1) { %>
-      <div class="sec">
-        <div class="sec-hd"><%= s.heading %></div>
-        <ul>
-          <% s.items.forEach(item => { %><li><%= item %></li><% }) %>
-        </ul>
-      </div>
-      <% if (photos[i + 1]) { %>
-      <div class="photo photo-small">
-        <img src="<%= photos[i + 1].dataUri %>" alt="" style="object-position: <%= photos[i + 1].focalX %>% <%= photos[i + 1].focalY %>%">
-      </div>
-      <% } %>
-      <% } %>
-      <% }) %>
-    </div>
-
-  </div>
-
-  <!-- Footer -->
-  <footer class="foot">
-    <span><%= company.footer_cta %></span>
-  </footer>
+  <%- include('partials/mirk/header', { company, logoUri }) %>
+  <%- include('partials/mirk/unit', { unit }) %>
+  <%- include('partials/common/body', { unit, photos }) %>
+  <%- include('partials/mirk/footer', { company }) %>
 
 </div>
 </body>
