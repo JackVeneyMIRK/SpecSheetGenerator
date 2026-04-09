@@ -23,6 +23,16 @@ export async function GET(request, { params }) {
     });
   } catch (error) {
     const status = error?.status || 500;
-    return new Response(`Error: ${error?.message || 'Unable to generate PDF'}`, { status });
+    console.error('Failed to generate inline PDF', {
+      tenant,
+      unitId,
+      asTenant,
+      error,
+    });
+    const message =
+      process.env.NODE_ENV !== 'production'
+        ? `Error: ${error?.message || 'Unable to generate PDF'}`
+        : 'Error: Unable to generate PDF';
+    return new Response(message, { status });
   }
 }
